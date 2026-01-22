@@ -1,0 +1,176 @@
+[
+  {
+    "traceCode": "TEA2024000001",
+    "name": "西湖龙井",
+    "type": "绿茶",
+    "origin": "浙江省杭州市",
+    "producer": "杭州西湖茶叶有限公司",
+    "productionDate": "2024-03-15",
+    "harvestDate": "2024-03-10",
+    "processingSteps": [
+      {
+        "step": "采摘",
+        "date": "2024-03-10",
+        "description": "新鲜茶叶采摘"
+      },
+      {
+        "step": "加工",
+        "date": "2024-03-11",
+        "description": "茶叶加工处理"
+      },
+      {
+        "step": "烘焙",
+        "date": "2024-03-12",
+        "description": "茶叶烘焙"
+      }
+    ],
+    "qualityTest": {
+      "passed": true,
+      "testDate": "2024-03-14",
+      "testResults": "质量检测合格，符合国家标准"
+    },
+    "packagingInfo": {
+      "material": "纸质包装",
+      "packageDate": "2024-03-15",
+      "packageQuantity": 100
+    },
+    "distributionInfo": [
+      {
+        "location": "杭州西湖茶叶有限公司",
+        "date": "2024-03-15",
+        "status": "包装完成"
+      },
+      {
+        "location": "杭州茶叶批发市场",
+        "date": "2024-03-16",
+        "status": "运输中"
+      },
+      {
+        "location": "上海茶叶专卖店",
+        "date": "2024-03-18",
+        "status": "已上架"
+      }
+    ]
+  },
+  {
+    "traceCode": "TEA2024000002",
+    "name": "大红袍",
+    "type": "乌龙茶",
+    "origin": "福建省武夷山市",
+    "producer": "武夷山岩茶有限公司",
+    "productionDate": "2024-04-05",
+    "harvestDate": "2024-03-28",
+    "processingSteps": [
+      {
+        "step": "采摘",
+        "date": "2024-03-28",
+        "description": "新鲜茶叶采摘"
+      },
+      {
+        "step": "萎凋",
+        "date": "2024-03-29",
+        "description": "茶叶萎凋处理"
+      },
+      {
+        "step": "做青",
+        "date": "2024-03-30",
+        "description": "茶叶做青工艺"
+      },
+      {
+        "step": "烘焙",
+        "date": "2024-04-02",
+        "description": "茶叶烘焙"
+      }
+    ],
+    "qualityTest": {
+      "passed": true,
+      "testDate": "2024-04-04",
+      "testResults": "质量检测合格，符合乌龙茶国家标准"
+    },
+    "packagingInfo": {
+      "material": "陶瓷罐装",
+      "packageDate": "2024-04-05",
+      "packageQuantity": 50
+    },
+    "distributionInfo": [
+      {
+        "location": "武夷山岩茶有限公司",
+        "date": "2024-04-05",
+        "status": "包装完成"
+      },
+      {
+        "location": "福州茶叶批发市场",
+        "date": "2024-04-06",
+        "status": "运输中"
+      },
+      {
+        "location": "北京茶叶专卖店",
+        "date": "2024-04-08",
+        "status": "已上架"
+      }
+    ]
+  },
+  {
+    "traceCode": "TEA2024000003",
+    "name": "祁门红茶",
+    "type": "红茶",
+    "origin": "安徽省祁门县",
+    "producer": "祁门红茶有限公司",
+    "productionDate": "2024-05-10",
+    "harvestDate": "2024-05-05",
+    "processingSteps": [
+      {
+        "step": "采摘",
+        "date": "2024-05-05",
+        "description": "新鲜茶叶采摘"
+      },
+      {
+        "step": "萎凋",
+        "date": "2024-05-06",
+        "description": "茶叶萎凋处理"
+      },
+      {
+        "step": "揉捻",
+        "date": "2024-05-07",
+        "description": "茶叶揉捻工艺"
+      },
+      {
+        "step": "发酵",
+        "date": "2024-05-08",
+        "description": "茶叶发酵工艺"
+      },
+      {
+        "step": "烘干",
+        "date": "2024-05-09",
+        "description": "茶叶烘干处理"
+      }
+    ],
+    "qualityTest": {
+      "passed": true,
+      "testDate": "2024-05-09",
+      "testResults": "质量检测合格，符合红茶国家标准"
+    },
+    "packagingInfo": {
+      "material": "铁罐包装",
+      "packageDate": "2024-05-10",
+      "packageQuantity": 80
+    },
+    "distributionInfo": [
+      {
+        "location": "祁门红茶有限公司",
+        "date": "2024-05-10",
+        "status": "包装完成"
+      },
+      {
+        "location": "合肥茶叶批发市场",
+        "date": "2024-05-11",
+        "status": "运输中"
+      },
+      {
+        "location": "广州茶叶专卖店",
+        "date": "2024-05-13",
+        "status": "已上架"
+      }
+    ]
+  }
+]

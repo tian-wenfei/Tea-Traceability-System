@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员后台 - 茶叶追溯系统</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .login-container {
+            max-width: 400px;
+            margin: 5rem auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .login-form h2 {
+            color: #2c7d4d;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        /* 选项卡样式 */
+        .nav-tabs {
+            display: flex;
+            gap: 1rem;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .tab-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            background: transparent;
+            color: #666;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab-btn:hover {
+            color: #2c7d4d;
+        }
+        
+        .tab-btn.active {
+            color: #2c7d4d;
+            border-bottom-color: #2c7d4d;
+        }
+        
+        .tab-panel {
+            display: none;
+        }
+        
+        .tab-panel.active {
+            display: block;
+        }
+        
+        .traceability-list {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .traceability-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .traceability-item:last-child {
+            border-bottom: none;
+        }
+        
+        .traceability-item strong {
+            color: #2c7d4d;
+        }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- 登录页面 -->
+    <div id="loginPage" class="login-container">
+        <form id="loginForm" class="login-form">
+            <h2>管理员登录</h2>
+            <div class="form-group">
+                <label for="username">用户名:</label>
+                <input type="text" id="username" name="username" required placeholder="请输入用户名">
+            </div>
+            <div class="form-group">
+                <label for="password">密码:</label>
+                <input type="password" id="password" name="password" required placeholder="请输入密码">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">登录</button>
+            <div id="loginMessage" style="margin-top: 1rem; text-align: center;"></div>
+        </form>
+    </div>
+
+    <!-- 管理员后台页面 -->
+    <div id="adminPage" style="display: none;">
+        <header class="header">
+            <div class="container">
+                <h1>茶叶追溯系统 - 管理员后台</h1>
+            </div>
+        </header>
+
+        <main class="main">
+            <div class="container">
+                <div class="admin-header">
+                    <h2>管理菜单</h2>
+                    <button id="logoutBtn" class="btn btn-secondary">退出登录</button>
+                </div>
+
+                <!-- 导航选项卡 -->
+                <div class="nav-tabs" style="margin-bottom: 2rem;">
+                    <button class="tab-btn active" data-tab="traceability">追溯码管理</button>
+                    <button class="tab-btn" data-tab="statistics">数据统计</button>
+                    <button class="tab-btn" data-tab="account">账户管理</button>
+                </div>
+
+                <div id="message"></div>
+
+                <!-- 追溯码管理面板 -->
+                <div id="traceability-panel" class="tab-panel active">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3>追溯码管理</h3>
+                        <button id="addTeaBtn" class="btn btn-primary">添加茶叶信息</button>
+                    </div>
+                    
+                    <!-- 添加茶叶信息模态框 -->
+                    <div id="addTeaModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;">
+                        <div style="background: white; padding: 2rem; border-radius: 8px; max-width: 700px; width: 100%; max-height: 80vh; overflow-y: auto;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                                <h3>添加茶叶信息</h3>
+                                <button id="closeTeaModalBtn" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+                            </div>
+                            <form id="addTeaForm">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="adminTraceCode">追溯码:</label>
+                                        <input type="text" id="adminTraceCode" name="traceCode" required placeholder="请输入12位追溯码">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="adminName">茶叶名称:</label>
+                                        <input type="text" id="adminName" name="name" required placeholder="请输入茶叶名称">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="adminType">茶叶类型:</label>
+                                        <select id="adminType" name="type" required>
+                                            <option value="绿茶">绿茶</option>
+                                            <option value="红茶">红茶</option>
+                                            <option value="乌龙茶">乌龙茶</option>
+                                            <option value="白茶">白茶</option>
+                                            <option value="黑茶">黑茶</option>
+                                            <option value="黄茶">黄茶</option>
+                                            <option value="茯茶">茯茶</option>
+                                            <option value="青茶">青茶</option>
+                                            <option value="花茶">花茶</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="adminOrigin">产地:</label>
+                                        <input type="text" id="adminOrigin" name="origin" required placeholder="请输入产地">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="adminProducer">生产商:</label>
+                                        <input type="text" id="adminProducer" name="producer" required placeholder="请输入生产商">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="adminProductionDate">生产日期:</label>
+                                        <input type="date" id="adminProductionDate" name="productionDate" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="adminHarvestDate">采摘日期:</label>
+                                        <input type="date" id="adminHarvestDate" name="harvestDate" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="adminPackageMaterial">包装材料:</label>
+                                        <input type="text" id="adminPackageMaterial" name="packageMaterial" required placeholder="请输入包装材料">
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
+                                    <button type="button" id="cancelAddTeaBtn" class="btn btn-secondary">取消</button>
+                                    <button type="submit" class="btn btn-primary">添加</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <h3>追溯码列表</h3>
+                    <div class="traceability-list" id="traceabilityList">
+                        <!-- 追溯码列表将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+
+                <!-- 数据统计面板 -->
+                <div id="statistics-panel" class="tab-panel">
+                    <h3>数据统计</h3>
+                    <div class="statistics-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+                        <!-- 茶叶名称统计 -->
+                        <div class="statistic-item" style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+                            <h4>茶叶名称统计</h4>
+                            <div id="nameStatistics" style="margin-top: 1rem;"></div>
+                        </div>
+                        
+                        <!-- 茶叶类型统计 -->
+                        <div class="statistic-item" style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+                            <h4>茶叶类型统计</h4>
+                            <div id="typeStatistics" style="margin-top: 1rem;"></div>
+                        </div>
+                        
+                        <!-- 产地统计 -->
+                        <div class="statistic-item" style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+                            <h4>产地统计</h4>
+                            <div id="originStatistics" style="margin-top: 1rem;"></div>
+                        </div>
+                        
+                        <!-- 生产商统计 -->
+                        <div class="statistic-item" style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+                            <h4>生产商统计</h4>
+                            <div id="producerStatistics" style="margin-top: 1rem;"></div>
+                        </div>
+                        
+                        <!-- 包装材料统计 -->
+                        <div class="statistic-item" style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+                            <h4>包装材料统计</h4>
+                            <div id="materialStatistics" style="margin-top: 1rem;"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- 日期统计 -->
+                    <div class="date-statistics" style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); margin-top: 2rem;">
+                        <h4>日期统计</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
+                            <!-- 生产日期统计 -->
+                            <div>
+                                <h5>生产日期分布</h5>
+                                <div id="productionDateStatistics" style="margin-top: 0.5rem;"></div>
+                            </div>
+                            
+                            <!-- 采摘日期统计 -->
+                            <div>
+                                <h5>采摘日期分布</h5>
+                                <div id="harvestDateStatistics" style="margin-top: 0.5rem;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 账户管理面板 -->
+                <div id="account-panel" class="tab-panel">
+                    <!-- 主账户专属：账户列表和添加账户 -->
+                    <div id="admin-accounts-section" style="display: none;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                            <h3>账户管理</h3>
+                            <button id="addAccountBtn" class="btn btn-primary">添加副账户</button>
+                        </div>
+                        
+                        <!-- 添加账户模态框 -->
+                        <div id="addAccountModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;">
+                            <div style="background: white; padding: 2rem; border-radius: 8px; max-width: 500px; width: 100%;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                                    <h3>添加副账户</h3>
+                                    <button id="closeModalBtn" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+                                </div>
+                                <form id="addAccountForm">
+                                    <div class="form-group">
+                                        <label for="newUsername">用户名:</label>
+                                        <input type="text" id="newUsername" name="username" required placeholder="请输入用户名">
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="newUserPassword">密码:</label>
+                                            <input type="password" id="newUserPassword" name="password" required placeholder="请输入密码">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="confirmUserPassword">确认密码:</label>
+                                            <input type="password" id="confirmUserPassword" name="confirmPassword" required placeholder="请再次输入密码">
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
+                                        <button type="button" id="cancelAddBtn" class="btn btn-secondary">取消</button>
+                                        <button type="submit" class="btn btn-primary">添加</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <!-- 修改密码模态框 -->
+                        <div id="changeUserPasswordModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;">
+                            <div style="background: white; padding: 2rem; border-radius: 8px; max-width: 500px; width: 100%;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                                    <h3>修改用户密码</h3>
+                                    <button id="closeChangePasswordModalBtn" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+                                </div>
+                                <form id="changeUserPasswordForm">
+                                    <input type="hidden" id="targetUsername" name="targetUsername">
+                                    <div class="form-group">
+                                        <label for="newPasswordForUser">新密码:</label>
+                                        <input type="password" id="newPasswordForUser" name="newPassword" required placeholder="请输入新密码">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="confirmPasswordForUser">确认新密码:</label>
+                                        <input type="password" id="confirmPasswordForUser" name="confirmPassword" required placeholder="请再次输入新密码">
+                                    </div>
+                                    <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
+                                        <button type="button" id="cancelChangePasswordBtn" class="btn btn-secondary">取消</button>
+                                        <button type="submit" class="btn btn-primary">修改</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <div class="traceability-list" id="accountsList">
+                            <!-- 账户列表将通过JavaScript动态生成 -->
+                        </div>
+                    </div>
+                    
+                    <!-- 所有账户：修改自己的密码 -->
+                    <div id="changePassword-section">
+                        <h3>修改密码</h3>
+                        <form id="changePasswordForm" style="max-width: 500px; margin-top: 1.5rem;">
+                            <div class="form-group">
+                                <label for="currentPassword">当前密码:</label>
+                                <input type="password" id="currentPassword" name="currentPassword" required placeholder="请输入当前密码">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="newPassword">新密码:</label>
+                                    <input type="password" id="newPassword" name="newPassword" required placeholder="请输入新密码">
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirmPassword">确认新密码:</label>
+                                    <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="请再次输入新密码">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">修改密码</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="admin-script.js"></script>
+</body>
+</html>

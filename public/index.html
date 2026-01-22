@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>茶叶追溯系统</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h1>茶叶追溯系统</h1>
+                <p>通过追溯码查询茶叶全程信息</p>
+            </div>
+            <a href="admin.html" class="btn btn-secondary">管理员后台</a>
+        </div>
+    </header>
+
+    <main class="main">
+        <section class="search-section">
+            <div class="container">
+                <div class="search-box">
+                    <h2>查询茶叶信息</h2>
+                    <form id="searchForm">
+                        <div class="form-group">
+                            <label for="traceCode">追溯码:</label>
+                            <input type="text" id="traceCode" name="traceCode" placeholder="请输入12位追溯码" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">查询</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section class="result-section" id="resultSection" style="display: none;">
+            <div class="container">
+                <div class="result-header">
+                    <h2>查询结果</h2>
+                    <button class="btn btn-secondary" id="resetBtn">重新查询</button>
+                </div>
+                <div id="resultContent"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 茯忆长安团队茶叶追溯系统. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
